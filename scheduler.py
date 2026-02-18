@@ -1,8 +1,3 @@
-"""
-Sends a DM prompt to the GP three times a week (Mon / Wed / Fri at 9 AM ET)
-using APScheduler's CronTrigger.
-"""
-
 from datetime import datetime, timezone
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -20,12 +15,10 @@ def _log(msg: str) -> None:
 
 
 def _send_prompt() -> None:
-    """Pick the next prompt, DM it to the GP, and advance the index."""
     prompt = get_next_prompt()
     _log(f"Sending prompt to GP: {prompt[:60]}…")
 
     try:
-        # Open (or reuse) a DM conversation with the GP
         dm = client.conversations_open(users=[GP_SLACK_USER_ID])
         channel_id = dm["channel"]["id"]
 
@@ -44,10 +37,6 @@ def _send_prompt() -> None:
 
 
 def start_scheduler() -> BackgroundScheduler:
-    """
-    Start the background scheduler.  The cron trigger fires at
-    09:00 in the configured timezone on Monday, Wednesday, and Friday.
-    """
     scheduler = BackgroundScheduler()
     trigger = CronTrigger(
         day_of_week="mon,wed,fri",

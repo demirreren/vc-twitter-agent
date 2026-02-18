@@ -1,8 +1,3 @@
-"""
-Loads all environment variables from .env (locally) or from the
-hosting platform's environment (Railway in production).
-"""
-
 import os
 from dotenv import load_dotenv
 

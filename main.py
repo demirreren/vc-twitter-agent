@@ -1,9 +1,3 @@
-"""
-Entry point — starts the APScheduler for timed prompts and launches
-the Slack Bolt app in Socket Mode so it can receive events without
-a public URL.
-"""
-
 from datetime import datetime, timezone
 
 from slack_bolt.adapter.socket_mode import SocketModeHandler

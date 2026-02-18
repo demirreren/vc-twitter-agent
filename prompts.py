@@ -1,8 +1,3 @@
-"""
-Rotating prompt list and a tiny JSON-backed index tracker so the bot
-remembers which prompt to send next across restarts.
-"""
-
 import json
 import os
 
@@ -23,7 +18,6 @@ STATE_FILE = os.path.join(os.path.dirname(__file__), "prompt_state.json")
 
 
 def _load_index() -> int:
-    """Read the current prompt index from disk (defaults to 0)."""
     if not os.path.exists(STATE_FILE):
         return 0
     try:
@@ -34,7 +28,6 @@ def _load_index() -> int:
 
 
 def _save_index(index: int) -> None:
-    """Persist the prompt index to disk."""
     with open(STATE_FILE, "w") as f:
         json.dump({"index": index}, f)
 
@@ -45,9 +38,3 @@ def get_next_prompt() -> str:
     prompt = PROMPTS[idx % len(PROMPTS)]
     _save_index((idx + 1) % len(PROMPTS))
     return prompt
-
-
-def peek_current_prompt() -> str:
-    """Return the prompt that will be sent next, without advancing."""
-    idx = _load_index()
-    return PROMPTS[idx % len(PROMPTS)]

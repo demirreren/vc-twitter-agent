@@ -1,0 +1,6 @@
+slack-bolt==1.27.0
+slack-sdk==3.39.0
+APScheduler==3.11.2
+openai==2.21.0
+python-dotenv==1.2.1
+requests==2.32.3

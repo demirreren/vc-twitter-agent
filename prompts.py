@@ -38,3 +38,9 @@ def get_next_prompt() -> str:
     prompt = PROMPTS[idx % len(PROMPTS)]
     _save_index((idx + 1) % len(PROMPTS))
     return prompt
+
+
+def get_last_prompt() -> str:
+    """Return the most recently sent prompt (one behind the current pointer)."""
+    idx = (_load_index() - 1) % len(PROMPTS)
+    return PROMPTS[idx]

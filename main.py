@@ -1,9 +1,9 @@
+import os
 from datetime import datetime, timezone
 
-from slack_bolt.adapter.socket_mode import SocketModeHandler
+from flask import Flask
 
-from bot import app
-from config import SLACK_APP_TOKEN
+from bot import webhook_bp
 from scheduler import start_scheduler
 
 
@@ -11,8 +11,16 @@ def _log(msg: str) -> None:
     print(f"[{datetime.now(timezone.utc).isoformat()}] [main] {msg}")
 
 
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.register_blueprint(webhook_bp)
+    return app
+
+
 if __name__ == "__main__":
-    _log("Starting Northside Ventures Slack Bot…")
+    _log("Starting Northside Ventures WhatsApp Bot…")
     start_scheduler()
-    _log("Connecting to Slack via Socket Mode…")
-    SocketModeHandler(app, SLACK_APP_TOKEN).start()
+    app = create_app()
+    port = int(os.environ.get("PORT", 5000))
+    _log(f"Starting Flask server on port {port}…")
+    app.run(host="0.0.0.0", port=port)

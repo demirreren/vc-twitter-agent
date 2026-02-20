@@ -4,8 +4,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
-SLACK_APP_TOKEN = os.environ["SLACK_APP_TOKEN"]
-GP_SLACK_USER_ID = os.environ["GP_SLACK_USER_ID"]
 TWITTER_CHANNEL_ID = os.environ["TWITTER_CHANNEL_ID"]
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+
+TWILIO_ACCOUNT_SID = os.environ["TWILIO_ACCOUNT_SID"]
+TWILIO_AUTH_TOKEN = os.environ["TWILIO_AUTH_TOKEN"]
+TWILIO_WHATSAPP_FROM = os.environ["TWILIO_WHATSAPP_FROM"]
+GP_WHATSAPP_NUMBER = os.environ["GP_WHATSAPP_NUMBER"]
+
 TIMEZONE = os.getenv("TIMEZONE", "America/Toronto")

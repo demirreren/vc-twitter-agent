@@ -2,12 +2,18 @@ from datetime import datetime, timezone
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
-from slack_sdk import WebClient
+from twilio.rest import Client
 
-from config import GP_SLACK_USER_ID, SLACK_BOT_TOKEN, TIMEZONE
+from config import (
+    GP_WHATSAPP_NUMBER,
+    TIMEZONE,
+    TWILIO_ACCOUNT_SID,
+    TWILIO_AUTH_TOKEN,
+    TWILIO_WHATSAPP_FROM,
+)
 from prompts import get_next_prompt
 
-client = WebClient(token=SLACK_BOT_TOKEN)
+twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 
 def _log(msg: str) -> None:
@@ -19,18 +25,16 @@ def _send_prompt() -> None:
     _log(f"Sending prompt to GP: {prompt[:60]}…")
 
     try:
-        dm = client.conversations_open(users=[GP_SLACK_USER_ID])
-        channel_id = dm["channel"]["id"]
-
-        client.chat_postMessage(
-            channel=channel_id,
-            text=(
-                f"Hey! 👋 Here's your content prompt for today:\n\n"
-                f"_{prompt}_\n\n"
-                f"Reply with a voice memo and I'll handle the rest. 🎙️"
+        twilio_client.messages.create(
+            from_=TWILIO_WHATSAPP_FROM,
+            to=GP_WHATSAPP_NUMBER,
+            body=(
+                f"Hey! Here's your content prompt for today:\n\n"
+                f"{prompt}\n\n"
+                f"Just reply to this message with your thoughts!"
             ),
         )
-        _log("Prompt delivered")
+        _log("Prompt delivered via WhatsApp")
 
     except Exception as exc:
         _log(f"ERROR sending prompt: {exc}")

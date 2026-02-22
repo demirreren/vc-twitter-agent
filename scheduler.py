@@ -29,9 +29,9 @@ def _send_prompt() -> None:
             from_=TWILIO_WHATSAPP_FROM,
             to=GP_WHATSAPP_NUMBER,
             body=(
-                f"Hey! Here's your content prompt for today:\n\n"
+                f"Hey, it's Leif! Here's your content prompt for today:\n\n"
                 f"{prompt}\n\n"
-                f"Just reply to this message with your thoughts!"
+                f"Just reply with your thoughts and I'll handle the rest!"
             ),
         )
         _log("Prompt delivered via WhatsApp")
